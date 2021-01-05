@@ -38,12 +38,12 @@ import csv, sqlite3
 
 con = sqlite3.connect("corona.db") # change to 'sqlite:///your_filename.db'
 cur = con.cursor()
-cur.execute("CREATE TABLE t (id, pais, latitud, longitud, dia, infectacum, infectdia, muerteacum, muertedia);") # use your column names here
+cur.execute("CREATE TABLE t (id INTEGER PRYMARY KEY, pais, latitud, longitud, dia, infectacum INTEGER, infectdia INTEGER, muerteacum INTEGER, muertedia INTEGER);") # use your column names here
 
-with open('corona2.csv','r') as fin: # `with` statement available in 2.5+
+with open('corona.csv','r') as fin: # `with` statement available in 2.5+
     # csv.DictReader uses first line in file for column headings by default
     dr = csv.DictReader(fin) # comma is default delimiter
-    to_db = [(i['ID'], i['País'], i['Latitud'], i['Longitud'], i['Date'], i['Infectados Acumulado'], i['Infectados Día'], i['Muertes Acumulado'], i['Muertes Día']) for i in dr]
+    to_db = [(i['ID'], i['Pais'], i['Latitud'], i['Longitud'], i['Date'], i['InfectadosAcumulado'], i['InfectadosDia'], i['MuertesAcumulado'], i['MuertesDia']) for i in dr]
 
 cur.executemany("INSERT INTO t (id, pais, latitud, longitud, dia, infectacum, infectdia, muerteacum, muertedia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", to_db)
 con.commit()
@@ -66,3 +66,7 @@ for row in cur.execute('SELECT * FROM t;'):
 # No te olvides de cerrar la conexión
 con.close()
 '''
+
+
+import os
+os.system("pause")
