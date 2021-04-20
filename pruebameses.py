@@ -76,8 +76,49 @@ def actualizardato():
 	con.close()
 	print("Actualizar dato")
 
-def graficaacumulada():
-    print("Gráfica acumualada")
+def graficaacumulada1():
+    print("Gráfica frecuencia acumualada")
+
+    y = np.array([])
+    y2 = np.array([])
+    label = np.array([])
+
+    conn = sqlite3.connect("corona.db")
+    c = conn.cursor()
+    myquery = ("SELECT * FROM t;")
+    c.execute(myquery)
+
+    rows=c.fetchall()
+    for row in rows:
+        y = np.append(y,int(row[5]))
+        y2 = np.append(y2, int(row[7]))
+        label = np.append(label,row[4])
+        #print(row[4],row[5],row[7])
+
+    x = np.arange(1,len(y)+1,1)
+    
+    
+
+
+
+    plt.title("Covid19 México (Freq. Acumulada)")
+    plt.xticks(x,label,rotation='vertical')
+    plt.xlabel("Dias desde Feb 28 - 2020")
+    plt.ylabel("Casos confirmados")
+
+    plt.grid(True)
+
+    t = np.arange(1,np.amax(x),0.1)
+    plt.plot(x, y, 'bo--', markevery=3)
+    plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    
+
+    #plot
+    plt.show()
+    
+def graficaacumulada2():
+    print("Gráfica frecuencia acumualada")
 
     y = np.array([])
     y2 = np.array([])
@@ -102,20 +143,18 @@ def graficaacumulada():
     plt.title("Covid19 México (Freq. Acumulada)")
     plt.xticks(x,label,rotation='vertical')
     plt.xlabel("Dias desde Feb 28 - 2020")
-    plt.ylabel("Casos confirmados(azul) muertos(rojo)")
+    plt.ylabel("Muertes confirmadas")
 
     plt.grid(True)
 
     t = np.arange(1,np.amax(x),0.1)
-    plt.plot(x, y, 'bo--',x,y2,'rD--')
+    plt.plot(x, y2, 'ro--')
     plt.axes([0, np.amax(x), 0, np.amax(y)])
 
     #plot
     plt.show()
-    
-    
 
-def graficadia():
+def graficadia1():
     print("Gráfica por día")
     y = np.array([])
     y2 = np.array([])
@@ -140,17 +179,52 @@ def graficadia():
     plt.title("Covid19 México (Casos diarios)")
     plt.xticks(x,label,rotation='vertical')
     plt.xlabel("Dias desde Feb 28 - 2020")
-    plt.ylabel("Casos confirmados(azul) muertos(rojo)")
+    plt.ylabel("Casos confirmados")
 
     plt.grid(True)
 
     t = np.arange(1,np.amax(x),0.1)
-    plt.plot(x, y, 'bo--',x,y2,'rD--')
+    plt.plot(x, y, 'bo--')
     plt.axes([0, np.amax(x), 0, np.amax(y)])
     
     #plot
     plt.show()
+
+def graficadia2():
+    print("Gráfica por día")
+    y = np.array([])
+    y2 = np.array([])
+    label = np.array([])
+
+    conn = sqlite3.connect("corona.db")
+    c = conn.cursor()
+    myquery = ("SELECT * FROM t;")
+    c.execute(myquery)
+
+    rows=c.fetchall()
+    for row in rows:
+        y = np.append(y,int(row[6]))
+        y2 = np.append(y2, int(row[8]))
+        label = np.append(label,row[4])
+        #print(row[4],row[5],row[7])
+
+    x = np.arange(1,len(y)+1,1)
+
+
+
+    plt.title("Covid19 México (Casos diarios)")
+    plt.xticks(x,label,rotation='vertical')
+    plt.xlabel("Dias desde Feb 28 - 2020")
+    plt.ylabel("Muertes confirmadas")
+
+    plt.grid(True)
+
+    t = np.arange(1,np.amax(x),0.1)
+    plt.plot(x, y2, 'ro--')
+    plt.axes([0, np.amax(x), 0, np.amax(y)])
     
+    #plot
+    plt.show()    
 
 
 def minimoscuadrados():
@@ -319,20 +393,22 @@ while True:
     print("2.- Borrar dato")
     print("3.- Leer dato")
     print("4.- Actualizar dato")
-    print("5.- Gráfica acumulada")
-    print("6.- Gráfica por día")
-    print("7.- Mínimos cuadrados")
-    print("8.- Proyecciòn")
-    print("9.- Dìas Màximos")
-    print("10.- Estadìstica por mes")
-    print("11.- Mostrar todos los datos")
-    print("12.- Salir")
+    print("5.- Gráfica acumulada casos positivos")
+    print("6.- Gráfica acumulada muertes")
+    print("7.- Gráfica por día casos positivos")
+    print("8.- Gráfica por día muertes")
+    print("9.- Mínimos cuadrados")
+    print("10.- Proyecciòn")
+    print("11.- Dìas Màximos")
+    print("12.- Estadìstica por mes")
+    print("13.- Mostrar todos los datos")
+    print("14.- Salir")
     
     #entrada
-    eleccion = input("Ingrese la opción deseada 1-12:")
+    eleccion = input("Ingrese la opción deseada 1-14:")
     
     if(eleccion.isnumeric()):
-        if( int(eleccion) < 13 and int(eleccion) > 0):
+        if( int(eleccion) < 15 and int(eleccion) > 0):
             if(int(eleccion)==1):
                insertar()
                
@@ -346,35 +422,37 @@ while True:
                 actualizardato()
 
             if(int(eleccion)==5):
-                graficaacumulada()
-
+                graficaacumulada1()
+            
             if(int(eleccion)==6):
-                graficadia()
+                graficaacumulada2()
 
             if(int(eleccion)==7):
-                minimoscuadrados()
-
+                graficadia1()
+            
             if(int(eleccion)==8):
-                print("?????")
+                graficadia2()
 
             if(int(eleccion)==9):
-                diasmaximos()
-            
+                minimoscuadrados()
+
             if(int(eleccion)==10):
-                datosMes()
+                print("?????")
 
             if(int(eleccion)==11):
+                diasmaximos()
+            
+            if(int(eleccion)==12):
+                datosMes()
+
+            if(int(eleccion)==13):
                 mostrardata()
                 
-            if(int(eleccion)==12):
+            if(int(eleccion)==14):
                 print("Adios")
                 break
         else:
             print("Opcion inválida")
     else:
         print("Opción inválida")
-
-
-
-
 
