@@ -1,6 +1,6 @@
 # Covid-19 in Mexico
 
-I've recolected Covid-19 data in Mexico, contagions and deaths confirmed by government.
+I've collected Covid-19 data in Mexico, contagions and deaths confirmed by government.
 
 ## Getting Started
 
@@ -8,64 +8,33 @@ I've recolected Covid-19 data in Mexico, contagions and deaths confirmed by gove
 
 2.- You need to clone project.
 
-
 ### Prerequisites
 
 You need installed:
-Python 3.9.1
+Python 3.8.10 +
 
 Libraries:
-Numpy 1.19.4
-Matplotlib 3.3.3
-
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+Numpy 1.22.2
+Matplotlib 3.5.1
+Sqlite3 2.6.0
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+You can download the corona.csv or corona.db files to get the data collection,
 
-Say what the step will be
+Python files are ready to work by running them on terminal, no more installation required,
 
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+A step by step series of examples that tell you how to get a development env running.
 
 ## Running the tests
 
+To open corona.db with python script you require to run the command:
+
+python3 graficscmd2.py
+
+Choose proper option to get the graphs.
+
 Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
@@ -83,7 +52,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Alfonso Zepeda** - *Initial work* - [PurpleBooth](https://github.com/ing-a-zepeda)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 

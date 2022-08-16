@@ -2,6 +2,7 @@ import sqlite3
 import numpy as np
 from matplotlib import pyplot as plt
 
+from datetime import date
 
 #Funciones
 def insertar():
@@ -384,75 +385,315 @@ def mostrardata():
 
 
 
+
+def anualcontagioacumulado():
+	print("Anual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	
+
+	
+	y = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		
+		if(i != yearcurrent):
+			leer = str(i)+"-"+str(12)+"-"+str(31)
+			cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][5]))
+			label = np.append(label,rows[0][4])
+			
+			
+			con.commit()
+		else:
+			cur.execute("SELECT * FROM t ORDER BY id DESC LIMIT 1;")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][5]))
+			label = np.append(label,rows[0][4])
+			
+			con.commit()
+
+
+	x = np.arange(1,len(y)+1,1)
+	
+	plt.title("Covid19 México Contagio Acumulado Anual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Contagios confirmados")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y, 'bo--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+
+	
+
+	con.close()
+
+def anualcontagio():
+	print("Anual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	
+
+	
+	y = np.array([])
+	y2 = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		
+		if(i != yearcurrent):
+			leer = str(i)+"-"+str(12)+"-"+str(31)
+			cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][5]))
+			label = np.append(label,rows[0][4])
+			
+			
+			con.commit()
+		else:
+			cur.execute("SELECT * FROM t ORDER BY id DESC LIMIT 1;")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][5]))
+			label = np.append(label,rows[0][4])
+			
+			con.commit()
+
+	x = np.arange(1,len(y)+1,1)
+	y = np.hstack([0,y])
+	y2 = np.diff(y)
+	plt.title("Covid19 México Contagio Anual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Contagios confirmados")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y2, 'bo--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+
+	
+
+	con.close()
+
+
+def anualmuerteacumulado():
+	print("Anual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	
+	y = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		
+		if(i != yearcurrent):
+			leer = str(i)+"-"+str(12)+"-"+str(31)
+			cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][7]))
+			label = np.append(label,rows[0][4])
+			
+			con.commit()
+		else:
+			cur.execute("SELECT * FROM t ORDER BY id DESC LIMIT 1;")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][7]))
+			label = np.append(label,rows[0][4])
+
+			con.commit()
+
+
+	x = np.arange(1,len(y)+1,1)
+	
+	plt.title("Covid19 México Muertes Acumulado Anual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Muertes confirmadas")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y, 'ro--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+
+	
+
+	con.close()
+
+def anualmuerte():
+	print("Anual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	
+
+	
+	y = np.array([])
+	y2 = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		
+		if(i != yearcurrent):
+			leer = str(i)+"-"+str(12)+"-"+str(31)
+			cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][7]))
+			label = np.append(label,rows[0][4])
+			
+			
+			con.commit()
+		else:
+			cur.execute("SELECT * FROM t ORDER BY id DESC LIMIT 1;")
+			rows = cur.fetchall()
+			y = np.append(y,int(rows[0][7]))
+			label = np.append(label,rows[0][4])
+			
+			con.commit()
+
+	x = np.arange(1,len(y)+1,1)
+	y = np.hstack([0,y])
+	y2 = np.diff(y)
+	plt.title("Covid19 México Contagio Anual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Contagios confirmados")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y2, 'ro--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+
+	
+
+	con.close()
+
+
+
+
+
 print("Bienvenido al análisis de datos de Covid19 en México \n")
 
 #Menú principal
 while True:
     #Menu
-    print("1.- Agregar nuevo dato")
-    print("2.- Borrar dato")
-    print("3.- Leer dato")
-    print("4.- Actualizar dato")
-    print("5.- Gráfica acumulada casos positivos")
-    print("6.- Gráfica acumulada muertes")
-    print("7.- Gráfica por día casos positivos")
-    print("8.- Gráfica por día muertes")
-    print("9.- Mínimos cuadrados")
-    print("10.- Proyecciòn")
-    print("11.- Dìas Màximos")
-    print("12.- Estadìstica por mes")
-    print("13.- Mostrar todos los datos")
-    print("14.- Salir")
+	print("1.- Agregar nuevo dato")
+	print("2.- Borrar dato")
+	print("3.- Leer dato")
+	print("4.- Actualizar dato")
+	print("-------")
+	print("5.- Gráfica acumulada casos positivos")
+	print("6.- Gráfica acumulada muertes")
+	print("7.- Gráfica por día casos positivos")
+	print("8.- Gráfica por día muertes")
+	print("-------")
+	print("9.- Anual Gráfica acumulada casos positivos")
+	print("10.- Anual Gráfica acumulada muertes")
+	print("11.- Anual Gráfica casos positivos")
+	print("12.- Anual Gráfica muertes")
+	print("-------")
+	print("13.- Mínimos cuadrados")
+	print("14.- Proyecciòn")	
+	print("15.- Dìas Màximos")
+	print("16.- Mostrar todos los datos")
+	print("17.- Salir")
     
     #entrada
-    eleccion = input("Ingrese la opción deseada 1-14:")
+	eleccion = input("Ingrese la opción deseada 1-17:")
     
-    if(eleccion.isnumeric()):
-        if( int(eleccion) < 15 and int(eleccion) > 0):
-            if(int(eleccion)==1):
-               insertar()
+	if(eleccion.isnumeric()):
+		if( int(eleccion) < 18 and int(eleccion) > 0):
+			if(int(eleccion)==1):
+				insertar()
                
-            if(int(eleccion)==2):
-                borrar()
+			if(int(eleccion)==2):
+				borrar()
 
-            if(int(eleccion)==3):
-                leerdato()
+			if(int(eleccion)==3):
+				leerdato()
 
-            if(int(eleccion)==4):
-                actualizardato()
+			if(int(eleccion)==4):
+				actualizardato()
 
-            if(int(eleccion)==5):
-                graficaacumulada1()
+			if(int(eleccion)==5):
+				graficaacumulada1()
             
-            if(int(eleccion)==6):
-                graficaacumulada2()
+			if(int(eleccion)==6):
+				graficaacumulada2()
 
-            if(int(eleccion)==7):
-                graficadia1()
+			if(int(eleccion)==7):
+				graficadia1()
             
-            if(int(eleccion)==8):
-                graficadia2()
+			if(int(eleccion)==8):
+				graficadia2()
 
-            if(int(eleccion)==9):
-                minimoscuadrados()
+			if(int(eleccion)==9):
+				anualcontagioacumulado()
 
-            if(int(eleccion)==10):
-                print("?????")
-
-            if(int(eleccion)==11):
-                diasmaximos()
+			if(int(eleccion)==10):
+				anualmuerteacumulado()
+			
+			if(int(eleccion)==11):
+				anualcontagio()
             
-            if(int(eleccion)==12):
-                datosMes()
+			if(int(eleccion)==12):
+				anualmuerte()
 
-            if(int(eleccion)==13):
-                mostrardata()
+			if(int(eleccion)==13):
+				print("minimos cuadrados")
                 
-            if(int(eleccion)==14):
-                print("Adios")
-                break
-        else:
-            print("Opcion inválida")
-    else:
-        print("Opción inválida")
+			if(int(eleccion)==14):
+				print("proyeccion")
+
+			if(int(eleccion)==15):
+				diasmaximos()
+            
+			if(int(eleccion)==16):
+				mostrardata()
+                
+			if(int(eleccion)==17):
+				print("Adios")
+				break
+		else:
+			print("Opcion inválida")
+	else:
+		print("Opción inválida")
 
