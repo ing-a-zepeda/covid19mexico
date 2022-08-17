@@ -11,12 +11,15 @@ I've collected Covid-19 data in Mexico, contagions and deaths confirmed by gover
 ### Prerequisites
 
 You need installed:
-Python 3.8.10 +
+* Python 3.8.10 +
 
 Libraries:
-Numpy 1.22.2
-Matplotlib 3.5.1
-Sqlite3 2.6.0
+
+* Numpy 1.22.2
+* Matplotlib 3.5.1
+* Sqlite3 2.6.0
+* datetime
+
 
 ### Installing
 
@@ -52,7 +55,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Alfonso Zepeda** - *Initial work* - [PurpleBooth](https://github.com/ing-a-zepeda)
+* **Alfonso Zepeda** - *Initial work* - [ing-a-zepeda](https://github.com/ing-a-zepeda)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
