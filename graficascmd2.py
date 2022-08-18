@@ -103,7 +103,7 @@ def graficaacumulada1():
 
 
 
-    plt.title("Covid19 México (Freq. Acumulada)")
+    plt.title("Covid19 México Contagios Acumulado Diario")
     plt.xticks(x,label,rotation='vertical')
     plt.xlabel("Dias desde Feb 28 - 2020")
     plt.ylabel("Casos confirmados")
@@ -142,7 +142,7 @@ def graficaacumulada2():
 
 
 
-    plt.title("Covid19 México (Freq. Acumulada)")
+    plt.title("Covid19 México Muertes Acumulado Diario")
     plt.xticks(x,label,rotation='vertical')
     plt.xlabel("Dias desde Feb 28 - 2020")
     plt.ylabel("Muertes confirmadas")
@@ -178,7 +178,7 @@ def graficadia1():
 
 
 
-    plt.title("Covid19 México (Casos diarios)")
+    plt.title("Covid19 México Contagios Diarios")
     plt.xticks(x,label,rotation='vertical')
     plt.xlabel("Dias desde Feb 28 - 2020")
     plt.ylabel("Casos confirmados")
@@ -214,7 +214,7 @@ def graficadia2():
 
 
 
-    plt.title("Covid19 México (Casos diarios)")
+    plt.title("Covid19 México Muertes Diarias")
     plt.xticks(x,label,rotation='vertical')
     plt.xlabel("Dias desde Feb 28 - 2020")
     plt.ylabel("Muertes confirmadas")
@@ -257,7 +257,8 @@ def diasmaximos():
 	for row in rows:
 		print(str(rows[i][0])+"\t"+str(rows[i][4])+"\t"+str(rows[i][7])+"\t"+str(rows[i][8]))
 		i = i + 1
-
+	print("")
+	print("")
 
 def datosMes():
 	print("La fecha màs antigua es febrero 2020.")
@@ -319,7 +320,7 @@ def datosMes():
 
 	x2 = np.arange(1,len(y3)+1,1)
 
-	plt.title("Covid19 México (Casos diarios)")
+	plt.title("Covid19 México Contagios diario")
 	plt.xticks(x2,label1,rotation='vertical')
 	plt.xlabel("Dias desde Feb 28 - 2020")
 	plt.ylabel("Casos confirmados(azul) muertos(rojo)")
@@ -820,7 +821,7 @@ def semanalmuerte():
 	x = np.arange(1,len(y)+1,1)
 	y = np.hstack([0,y])
 	y2 = np.diff(y)
-	plt.title("Covid19 México Contagio Semanal")
+	plt.title("Covid19 México Muertes Semanal")
 	plt.xticks(x,label,rotation='vertical')
 	plt.xlabel("")
 	plt.ylabel("Contagios confirmados")
@@ -847,6 +848,242 @@ def all_sundays(year):
     while dt.year == year:
         yield dt
         dt += timedelta(days=7)
+
+def mensualmuerteacumulado():
+	print("mensual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	endmonth = ["01-31", "02-28", "03-31", "04-30", "05-31", "06-30", "07-31", "08-31","09-30", "10-31", "11-30", "12-31"]
+	weeks = []
+
+	y = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		if(i != yearcurrent):
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				
+				cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+				rows = cur.fetchall()
+				y = np.append(y,int(rows[0][7]))
+				label = np.append(label,rows[0][4])
+				con.commit()
+		else:
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				try:
+					cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+					rows = cur.fetchall()
+					y = np.append(y,int(rows[0][7]))
+					label = np.append(label,rows[0][4])
+					con.commit()
+				except:
+					break
+
+			
+
+
+	x = np.arange(1,len(y)+1,1)
+	
+	plt.title("Covid19 México Muertes Acumulado Mensual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Muertes confirmadas")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y, 'ro--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+
+	con.close()
+
+def mensualcontagioacumulado():
+	print("mensual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	endmonth = ["01-31", "02-28", "03-31", "04-30", "05-31", "06-30", "07-31", "08-31","09-30", "10-31", "11-30", "12-31"]
+	weeks = []
+
+	y = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		if(i != yearcurrent):
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				
+				cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+				rows = cur.fetchall()
+				y = np.append(y,int(rows[0][5]))
+				label = np.append(label,rows[0][4])
+				con.commit()
+		else:
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				try:
+					cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+					rows = cur.fetchall()
+					y = np.append(y,int(rows[0][5]))
+					label = np.append(label,rows[0][4])
+					con.commit()
+				except:
+					break
+
+			
+
+
+	x = np.arange(1,len(y)+1,1)
+	
+	plt.title("Covid19 México Contagio Acumulado Mensual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Muertes confirmadas")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y, 'bo--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+
+	con.close()
+
+
+def mensualmuerte():
+	print("mensual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	endmonth = ["01-31", "02-28", "03-31", "04-30", "05-31", "06-30", "07-31", "08-31","09-30", "10-31", "11-30", "12-31"]
+	weeks = []
+
+	y = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		if(i != yearcurrent):
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				
+				cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+				rows = cur.fetchall()
+				y = np.append(y,int(rows[0][7]))
+				label = np.append(label,rows[0][4])
+				con.commit()
+		else:
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				try:
+					cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+					rows = cur.fetchall()
+					y = np.append(y,int(rows[0][7]))
+					label = np.append(label,rows[0][4])
+					con.commit()
+				except:
+					break
+
+			
+
+
+	x = np.arange(1,len(y)+1,1)
+	y = np.hstack([0,y])
+	y2 = np.diff(y)
+	plt.title("Covid19 México Muerte Mensual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Contagios confirmados")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y2, 'ro--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+	con.close()
+
+def mensualcontagio():
+	print("mensual:")
+
+	con = sqlite3.connect("corona.db")
+	cur = con.cursor()
+	year1 = 2020
+	yearcurrent = date.today().year
+	years = list(range(year1,yearcurrent+1))
+	endmonth = ["01-31", "02-28", "03-31", "04-30", "05-31", "06-30", "07-31", "08-31","09-30", "10-31", "11-30", "12-31"]
+	weeks = []
+
+	y = np.array([])
+	label = np.array([])
+
+
+	for i in years:
+		if(i != yearcurrent):
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				
+				cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+				rows = cur.fetchall()
+				y = np.append(y,int(rows[0][5]))
+				label = np.append(label,rows[0][4])
+				con.commit()
+		else:
+			for s in endmonth:
+				leer = str(i)+ "-" + str(s)
+				try:
+					cur.execute("SELECT * FROM t WHERE dia = '" + leer + "';")
+					rows = cur.fetchall()
+					y = np.append(y,int(rows[0][5]))
+					label = np.append(label,rows[0][4])
+					con.commit()
+				except:
+					break
+
+			
+
+
+	x = np.arange(1,len(y)+1,1)
+	y = np.hstack([0,y])
+	y2 = np.diff(y)
+	plt.title("Covid19 México Contagio Mensual")
+	plt.xticks(x,label,rotation='vertical')
+	plt.xlabel("")
+	plt.ylabel("Contagios confirmados")
+
+	plt.grid(True)
+
+	t = np.arange(1,np.amax(x),0.1)
+	plt.plot(x, y2, 'bo--')
+	plt.axes([0, np.amax(x), 0, np.amax(y)])
+    
+    #plot
+	plt.show()  
+	con.close()
+
+
+
 
 print("Bienvenido al análisis de datos de Covid19 en México \n")
 
@@ -921,10 +1158,21 @@ while True:
 			
 			if(int(eleccion)==11):
 				semanalcontagio()
-				
             
 			if(int(eleccion)==12):
 				semanalmuerte()
+			
+			if(int(eleccion)==13):
+				mensualcontagioacumulado()
+				
+			if(int(eleccion)==14):
+				mensualmuerteacumulado()
+			
+			if(int(eleccion)==15):
+				mensualcontagio()
+            
+			if(int(eleccion)==16):
+				mensualmuerte()
 
 			if(int(eleccion)==17):
 				anualcontagioacumulado()
