@@ -32,14 +32,20 @@ print(f.read())
 f.close()
 
 '''
+import csv, sqlite3, os
+
+# Remove old db file
+os.remove("corona.db")
 
 
-import csv, sqlite3
-
+# Create connection object to SQLite3 DB
 con = sqlite3.connect("corona.db") # change to 'sqlite:///your_filename.db'
+# Create cursor object
 cur = con.cursor()
+# Create Table t
 cur.execute("CREATE TABLE t (id INTEGER PRYMARY KEY, pais, latitud, longitud, dia, infectacum INTEGER, infectdia INTEGER, muerteacum INTEGER, muertedia INTEGER);") # use your column names here
 
+# Insert data from CSV file
 with open('corona.csv','r') as fin: # `with` statement available in 2.5+
     # csv.DictReader uses first line in file for column headings by default
     dr = csv.DictReader(fin) # comma is default delimiter
@@ -49,24 +55,6 @@ cur.executemany("INSERT INTO t (id, pais, latitud, longitud, dia, infectacum, in
 con.commit()
 con.close()
 
-'''
-# Importa el módulo sqlite3
-import sqlite3
-
-# Crea un objeto de conexión a la base de datos SQLite
-con = sqlite3.connect("corona.db")
-
-# Con la conexión, crea un objeto cursor
-cur = con.cursor()
-
-# El resultado de "cursor.execute" puede ser iterado por fila
-for row in cur.execute('SELECT * FROM t;'):
-    print(row)
-
-# No te olvides de cerrar la conexión
-con.close()
-'''
 
 
-import os
 os.system("pause")
